@@ -1,166 +1,43 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import './NavBar.css';
+import React from 'react';
+import './styles/NavBar.css';
 
-const NavBar = ({ near, defaultContractId = 'fastnear.testnet' }) => {
-  const [signedIn, setSignedIn] = useState(false);
-  const [expanded, setExpanded] = useState(false);
-
-  // Data for signed-in users
-  const [accountId, setAccountId] = useState('');
-  const [contractId, setContractId] = useState(defaultContractId);
-  const [contract, setContract] = useState('');
-  const [publicKey, setPublicKey] = useState('');
-  const [initialLetter, setInitialLetter] = useState('?');
-  const [hexPayload, setHexPayload] = useState('');
-
-  // Configure once
-  // @todo: there's an issue in destructuring or something. the word testnet seems spread
-  useEffect(() => {
-    near.config({ networkId: 'testnet' });
-  }, []);
-
-  // Update the UI state based on NEAR
-  const updateUI = useCallback(async () => {
-    if (!near) return;
-
-    // If signed in
-    if (near.authStatus() === 'SignedIn') {
-      setSignedIn(true);
-
-      const contractSelected = near.selected().contract;
-      const fullPublicKey = near.selected().publicKey;
-      const [curveType, payload] = fullPublicKey.split(':') || [];
-      setInitialLetter(curveType ? curveType[0].toUpperCase() : '?');
-      setHexPayload(payload || '');
-      setAccountId(near.accountId());
-      setContract(contractSelected);
-      setExpanded(false);
-    } else {
-      // Not signed in
-      setSignedIn(false);
-      setExpanded(true);
-    }
-  }, [near]);
-
-  // Copy text handler
-  const handleCopy = async (value, e) => {
-    e.stopPropagation();
-    try {
-      await navigator.clipboard.writeText(value);
-      // (Optional) show a flash / outline effect in a real app
-    } catch (err) {
-      console.error('Failed to copy:', err);
-    }
-  };
-
-  // Toggle expansion
-  const toggleExpanded = (e) => {
-    const allowedContainerClick =
-      e.target.id === 'auth' ||
-      e.target.classList.contains('account-name') ||
-      e.target.id === 'auth-logged-in' ||
-      e.target.id === 'auth-logged-out';
-    if (allowedContainerClick) {
-      setExpanded(!expanded);
-    }
-  };
-
-  // Sign in / sign out
-  const handleSignIn = (e) => {
-    e.stopPropagation();
-    // if (!near) return;
-    near.requestSignIn({ contractId });
-  };
-
-  const handleSignOut = (e) => {
-    e.stopPropagation();
-    if (!near) return;
-    near.signOut();
-    window.location.reload();
-  };
-
-  // Effects
-  useEffect(() => {
-    if (!near) return;
-    near.event.onAccount((acctId) => {
-      if (acctId) {
-        console.log('fastnear: account update:', acctId);
-      }
-      updateUI();
-    });
-    updateUI();
-  }, [near, updateUI]);
-
+const NavBar = () => {
   return (
-    <div id="navbar">
-      <div
-        id="auth"
-        className={`user-info pointer ${expanded ? 'expanded' : 'collapsed'}`}
-        onClick={toggleExpanded}
+    <div className="tc ma2">
+      <a
+        className="nav-link"
+        href="https://github.com/fastnear/js-monorepo"
+        rel="noopener noreferrer"
+        target="_blank"
       >
-        {signedIn ? (
-          <div
-            id="auth-logged-in"
-            className="flex flex-column items-center w-100"
-          >
-            <div
-              className="account-name truncate w-100 tc white-90 stop-prop"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {accountId}
-            </div>
-            {!expanded ? null : (
-              <div className="expanded-content w-100">
-                <div
-                  className="near-contract copyable pa1 ma2 lightest-blue tc pb0 mb1"
-                  onClick={(e) => handleCopy(contract, e)}
-                >
-                  {contract}
-                </div>
-                <div
-                  className="near-public-key copyable pa1 ma2 pt0 lightest-blue tc flex items-center"
-                  onClick={(e) => handleCopy(publicKey, e)}
-                >
-                  <div className="public-key-square-initial bg-light-green dark-gray w1 h1 flex items-center justify-center f5 fw6 mr2">
-                    {initialLetter}
-                  </div>
-                  <div className="public-key-truncated white-80 truncate w-100 tc f7 code">
-                    {hexPayload.slice(0, 8)}…{hexPayload.slice(-8)}
-                  </div>
-                </div>
-                <button
-                  id="sign-out"
-                  className="mt3 ba pointer signout-button"
-                  onClick={handleSignOut}
-                >
-                  Sign Out
-                </button>
-              </div>
-            )}
-          </div>
-        ) : (
-          <div id="auth-logged-out" className="pa1" style={{ minWidth: '220px' }}>
-            <div className="flex flex-column">
-              <label className="f5 white-80 mb3">near contract:</label>
-              <input
-                type="text"
-                id="contractId"
-                value={contractId}
-                onChange={(e) => setContractId(e.target.value)}
-                className="input-reset ba b--white-30 pa2 mb2 w5 br2 bg-black-30 white"
-              />
-              <button
-                id="sign-in"
-                className="bn br2 pv2 ph3 pointer mt2"
-                style={{ background: 'var(--accent)' }}
-                onClick={handleSignIn}
-              >
-                create session key
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
+        <svg
+          aria-hidden="true"
+          className="mr1"
+          fill="currentColor"
+          height="25"
+          viewBox="0 0 16 16"
+          width="25"
+        >
+          <path
+            d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53
+               5.47 7.59.4.07.55-.17.55-.38
+               0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01
+               1.08.58 1.23.82.72 1.21
+               1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95
+               0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12
+               0 0 .67-.21 2.2.82.64-.18
+               1.32-.27 2-.27.68 0 1.36.09 2 .27
+               1.53-1.04 2.2-.82 2.2-.82.44 1.1.16
+               1.92.08 2.12.51.56.82 1.27.82
+               2.15 0 3.07-1.87 3.75-3.65
+               3.95.29.25.54.73.54
+               1.48 0 1.07-.01
+               1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016
+               8c0-4.42-3.58-8-8-8z"
+          />
+        </svg>
+        fastnear/js-monorepo
+      </a>
     </div>
   );
 };

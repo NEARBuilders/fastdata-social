@@ -37,11 +37,16 @@ export default {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/index.html',
+      // template: './src/debug.html',
+      // template: './src/debug-sidebar.html',
       favicon: './src/favicon.png' // Ensures HtmlWebpackPlugin references it
     }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: './src/favicon.png', to: 'favicon.png' } // Copies favicon to dist
+        { from: './src/favicon.png', to: 'favicon.png' },
+        { from: './src/styles/basic-responsive.css', to: 'styles/basic-responsive.css' },
+        // Removing example-brand.css as we're consolidating CSS
+        // { from: './src/styles/example-brand.css', to: 'styles/example-brand.css' }
       ]
     })
   ],

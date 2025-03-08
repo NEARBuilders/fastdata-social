@@ -1,6 +1,7 @@
 import * as near from '@fastnear/api';
 
 // called by FileUploader's handleSendToNear
+// This uses the testnet configuration initialized in App.js
 export const sendFilesToNear = async (files, contractId) => {
   // you're a global now, harry
   window.near = near
@@ -27,6 +28,7 @@ export const sendFilesToNear = async (files, contractId) => {
       base64: f.base64,
     }));
 
+    // Using NEAR testnet to send transaction
     const result = await near.sendTx({
       receiverId: contractId,
       actions: [
