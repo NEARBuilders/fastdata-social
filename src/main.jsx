@@ -13,7 +13,6 @@ import { setupMeteorWalletApp } from "@near-wallet-selector/meteor-wallet-app";
 import { setupHotWallet } from "@near-wallet-selector/hot-wallet";
 import { setupLedger } from "@near-wallet-selector/ledger";
 import { setupSender } from "@near-wallet-selector/sender";
-import { setupHereWallet } from "@near-wallet-selector/here-wallet";
 import { setupNearMobileWallet } from "@near-wallet-selector/near-mobile-wallet";
 import { setupWelldoneWallet } from "@near-wallet-selector/welldone-wallet";
 import { WalletSelectorProvider } from "@near-wallet-selector/react-hook";
@@ -33,7 +32,6 @@ const walletSelectorConfig = {
     setupMyNearWallet(),
     setupLedger(),
     setupSender(),
-    setupHereWallet(),
     setupNearMobileWallet(),
     setupWelldoneWallet(),
   ],
@@ -42,5 +40,5 @@ const walletSelectorConfig = {
 createRoot(document.getElementById("root")).render(
   <WalletSelectorProvider config={walletSelectorConfig}>
     <App />
-  </WalletSelectorProvider>
+  </WalletSelectorProvider>,
 );
