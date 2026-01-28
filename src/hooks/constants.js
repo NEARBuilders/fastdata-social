@@ -11,7 +11,7 @@ export const Constants = {
   MAX_KV_KEYS_PER_TX: 256, // Maximum keys per transaction
 
   // API Configuration
-  API_BASE_URL: "http://localhost:3000", // KV API server
+  API_BASE_URL: "http://localhost:3001", // KV API server
   EXPLORER_URL: "https://nearblocks.io/txns",
 
   // Network Configuration
