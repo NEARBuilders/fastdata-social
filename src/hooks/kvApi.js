@@ -30,10 +30,14 @@ export async function fetchFollowing(accountId) {
     if (!response.ok) throw new Error("API request failed");
     const data = await response.json();
 
+    // Debug: Log the raw API response
+    console.log("Following API response:", JSON.stringify(data, null, 2));
+
     // Parse response: extract account from key
     // "graph/follow/alice.near" → "alice.near"
     const accounts = (data.entries || []).map((entry) => {
       const key = entry.key;
+      console.log(`Entry: key=${entry.key}, value=${JSON.stringify(entry.value)}`);
       return key.replace("graph/follow/", "");
     });
 

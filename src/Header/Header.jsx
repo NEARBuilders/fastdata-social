@@ -5,7 +5,7 @@ export function Header(props) {
     <nav className="sticky-top navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
         <a className="navbar-brand fs-4" href="/">
-          FastFS Upload Demo
+          FastData
         </a>
         <button
           className="navbar-toggler"
@@ -22,7 +22,7 @@ export function Header(props) {
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
               <a className="nav-link" href="https://fastfs.io" target="_blank">
-                FastFS Docs
+                Docs
               </a>
             </li>
           </ul>

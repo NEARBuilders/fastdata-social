@@ -167,9 +167,9 @@ export function Social() {
       setTransacting(true);
 
       try {
-        // Create KV transaction with "null" deletion marker
+        // Create KV transaction with null deletion marker
         const kvArgs = {
-          [`graph/follow/${targetAccount}`]: "null",
+          [`graph/follow/${targetAccount}`]: null,
         };
 
         const txId = await callFunction({
